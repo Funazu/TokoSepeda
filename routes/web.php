@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
+use App\Models\Category;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +30,14 @@ Route::get('/logout', [AuthController::class, 'logout'])->middleware('guest');
 Route::get('/register', [AuthController::class, 'register'])->middleware('guest');
 Route::post('/register', [AuthController::class, 'postRegister'])->middleware('guest');
 
-// Product
+// Category
+Route::get('/category', [CategoryController::class, 'index'])->middleware('auth');
+Route::get('/category/create', [CategoryController::class, 'create'])->middleware('auth');
+Route::post('/category/post', [CategoryController::class, 'store'])->middleware('auth');
+Route::get('/category/edit/{category:id}', [CategoryController::class, 'edit'])->middleware('auth');
+Route::post('/category/update/{category:id}', [CategoryController::class, 'update'])->middleware('auth');
+Route::post('/category/delete/{category:id}', [CategoryController::class, 'destroy'])->middleware('auth');
+
+// Product  
 Route::get('/product', [ProductController::class, 'index'])->middleware('auth');
 Route::get('/product/create', [ProductController::class, 'create'])->middleware('auth');
