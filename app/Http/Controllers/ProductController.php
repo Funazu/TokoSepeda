@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -15,8 +18,9 @@ class ProductController extends Controller
     {
         return view('dashboard.product.home', [
             'title' => 'Product',
-            'active' => 'dashboard'
-        ]);
+            'active' => 'dashboard',
+            'product' => Product::all()
+        ])->with('i');
     }
 
     /**
@@ -28,7 +32,8 @@ class ProductController extends Controller
     {
         return view('dashboard.product.create', [
             'title' => 'Create Product',
-            'active' => 'dashboard'
+            'active' => 'dashboard',
+            'category' => Category::all()
         ]);
     }
 
@@ -40,7 +45,20 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'category_id' => 'required',
+            'price' => 'required',
+            'qty' => 'required',
+            'image' => 'required|file|max:2048'
+        ]);
+
+        if($request->file('image')) {
+            $validatedData['image'] = $request->file('image')->store('product-image');
+        }
+        
+        Product::create($validatedData);
+        return redirect('/product');
     }
 
     /**
@@ -62,7 +80,12 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('dashboard.product.edit', [
+            'title' => 'Edit Product',
+            'active' => 'dashboard',
+            'product' => Product::find($id),
+            'category' => Category::all()
+        ]);
     }
 
     /**
@@ -72,9 +95,26 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Product $product)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'category_id' => 'required',
+            'price' => 'required',
+            'qty' => 'required',
+            'image' => 'required|file|max:2048'
+        ]);
+
+        if ($request->file('image')) {
+            if ($request->oldImage) {
+                Storage::delete($request->oldImage);
+            }
+            $validatedData['image'] = $request->file('image')->store('product-image');
+        }
+
+        $product->update($validatedData);
+        // Product::where('id', $product->id)->update($validatedData);
+        return redirect('/product');
     }
 
     /**
@@ -83,8 +123,9 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return redirect('/product');
     }
 }
