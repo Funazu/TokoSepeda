@@ -21,10 +21,11 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 Route::get('/', [HomeController::class, 'index']);
+Route::get('/detail/{product:id}', [HomeController::class, 'detail']);
 
 
 // Login
-Route::get('/login', [AuthController::class, 'login'])->middleware('guest');
+Route::get('/login', [AuthController::class, 'login'])->middleware('guest')->name('login');
 Route::post('/login', [AuthController::class, 'loginPost'])->middleware('guest');
 Route::get('/logout', [AuthController::class, 'logout'])->middleware('guest');
 
@@ -41,7 +42,7 @@ Route::post('/category/update/{category:id}', [CategoryController::class, 'updat
 Route::post('/category/delete/{category:id}', [CategoryController::class, 'destroy'])->middleware('auth');
 
 // Product  
-Route::get('/product', [ProductController::class, 'index'])->middleware('auth');
+Route::get('/product', [ProductController::class, 'index'])->middleware('auth')->name('dashboard');
 Route::get('/product/create', [ProductController::class, 'create'])->middleware('auth');
 Route::post('/product/post', [ProductController::class, 'store'])->middleware('auth');
 Route::get('/product/edit/{product:id}', [ProductController::class, 'edit'])->middleware('auth');

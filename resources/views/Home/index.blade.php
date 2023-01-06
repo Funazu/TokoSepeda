@@ -9,7 +9,7 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ $p->name }}</h5>
                             <p class="card-text"><i class="bi bi-bookmarks"></i> {{ $p->category->name }} | <i class="bi bi-tags"></i> Rp. {{ number_format($p->price) }} | <i class="bi bi-view-list"></i> {{ $p->qty }}</p>
-                            <a href="/home/detail/" class="btn btn-success">Detail Product</a>
+                            <a href="{{ "/detail/" . $p->id }}" class="btn btn-success">Detail Product</a>
                         </div>
                         </div>
                     </div>
