@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -48,3 +49,7 @@ Route::post('/product/post', [ProductController::class, 'store'])->middleware('a
 Route::get('/product/edit/{product:id}', [ProductController::class, 'edit'])->middleware('auth');
 Route::post('/product/update/{product:id}', [ProductController::class, 'update'])->middleware('auth');
 Route::post('/product/delete/{product:id}', [ProductController::class, 'destroy'])->middleware('auth');
+
+// Transaction
+Route::get('/transaction/{product:id}', [TransactionController::class, 'index'])->middleware('auth')->name('transaction');
+Route::post('/transaction/post', [TransactionController::class, 'postData'])->middleware('auth');

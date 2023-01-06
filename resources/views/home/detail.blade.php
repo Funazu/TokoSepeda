@@ -27,7 +27,7 @@
                                 </div>
                                 <hr>
                                 <div class="d-grid gap-2 mb-2">
-                                    <a href="/transaction" class="btn btn-success">Beli Sekarang</a>
+                                    <a href="{{ "/transaction/" . $product->id }}" class="btn btn-success">Beli Sekarang</a>
                                     <a href="/cart" class="btn btn-primary">Masukkan Keranjang</a>
                                 </div>
                             </div>
