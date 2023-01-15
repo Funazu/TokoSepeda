@@ -33,7 +33,6 @@ class TransactionController extends Controller
 
 
         $validatedData['user_id'] = auth()->user()->id;
-
         $createTransaction = Transaction::create($validatedData);
 
         
@@ -44,9 +43,8 @@ class TransactionController extends Controller
             'transaction_id' => $createTransaction->id,
             'qty' => $request->qty
         ];
-        TransactionDetail::create($details);
-        
 
+        TransactionDetail::create($details);
         return redirect('/');
     }
 }
